@@ -13,6 +13,8 @@ import {
 
 const REWARD_ADDRESS = '0x4731bc41b3cca4c2883b8ebb68cb546d5b3b4dd6'
 const PHALA_CHAIN_BRIDGE_ADDRESS = '0xcd38b15a419491c7c1238b0659f65c755792e257'
+const KHALA_LEGACY_CHAIN_BRIDGE_ADDRESS =
+  '0x6ed3bc069cf4f87de05c04c352e8356492ec6efe'
 const KHALA_CHAIN_BRIDGE_ADDRESS = '0xeec0fb4913119567cdfc0c5fc2bf8f9f9b226c2d'
 const SYGMA_BRIDGE_ADDRESS = '0xC832588193cd5ED2185daDA4A531e0B26eC5B830'
 
@@ -29,7 +31,9 @@ const fetchCirculation = async (ctx: Context, block: Block) => {
   const contract = new erc20.Contract(ctx, block, CONTRACT_ADDRESS)
   const reward = await contract.balanceOf(REWARD_ADDRESS)
   const phalaChainBridge = await contract.balanceOf(PHALA_CHAIN_BRIDGE_ADDRESS)
-  const khalaChainBridge = await contract.balanceOf(KHALA_CHAIN_BRIDGE_ADDRESS)
+  const khalaChainBridge =
+    (await contract.balanceOf(KHALA_CHAIN_BRIDGE_ADDRESS)) +
+    (await contract.balanceOf(KHALA_LEGACY_CHAIN_BRIDGE_ADDRESS))
   const sygmaBridge = await contract.balanceOf(SYGMA_BRIDGE_ADDRESS)
   const totalSupply = await contract.totalSupply()
 
