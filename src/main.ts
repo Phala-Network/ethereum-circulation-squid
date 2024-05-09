@@ -17,6 +17,7 @@ const KHALA_LEGACY_CHAIN_BRIDGE_ADDRESS =
   '0x6ed3bc069cf4f87de05c04c352e8356492ec6efe'
 const KHALA_CHAIN_BRIDGE_ADDRESS = '0xeec0fb4913119567cdfc0c5fc2bf8f9f9b226c2d'
 const SYGMA_BRIDGE_ADDRESS = '0xC832588193cd5ED2185daDA4A531e0B26eC5B830'
+const PORTAL_BRIDGE_ADDRESS = '0x3ee18B2214AFF97000D974cf647E7C347E8fa585'
 
 const normalizeTimestamp = (timestamp?: number): Date => {
   assert(timestamp)
@@ -35,6 +36,7 @@ const fetchCirculation = async (ctx: Context, block: Block) => {
     (await contract.balanceOf(KHALA_CHAIN_BRIDGE_ADDRESS)) +
     (await contract.balanceOf(KHALA_LEGACY_CHAIN_BRIDGE_ADDRESS))
   const sygmaBridge = await contract.balanceOf(SYGMA_BRIDGE_ADDRESS)
+  const portalBridge = await contract.balanceOf(PORTAL_BRIDGE_ADDRESS)
   const totalSupply = await contract.totalSupply()
 
   const circulation = [
@@ -42,6 +44,7 @@ const fetchCirculation = async (ctx: Context, block: Block) => {
     phalaChainBridge,
     khalaChainBridge,
     sygmaBridge,
+    portalBridge,
   ].reduce((acc, cur) => acc - cur, totalSupply)
 
   return {
@@ -49,6 +52,7 @@ const fetchCirculation = async (ctx: Context, block: Block) => {
     phalaChainBridge: toBalance(phalaChainBridge),
     khalaChainBridge: toBalance(khalaChainBridge),
     sygmaBridge: toBalance(sygmaBridge),
+    portalBridge: toBalance(portalBridge),
     totalSupply: toBalance(totalSupply),
     circulation: toBalance(circulation),
   }

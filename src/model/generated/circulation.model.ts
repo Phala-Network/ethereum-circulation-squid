@@ -30,6 +30,9 @@ export class Circulation {
     sygmaBridge!: BigDecimal
 
     @Column_("numeric", {transformer: marshal.bigdecimalTransformer, nullable: false})
+    portalBridge!: BigDecimal
+
+    @Column_("numeric", {transformer: marshal.bigdecimalTransformer, nullable: false})
     totalSupply!: BigDecimal
 
     @Column_("numeric", {transformer: marshal.bigdecimalTransformer, nullable: false})
