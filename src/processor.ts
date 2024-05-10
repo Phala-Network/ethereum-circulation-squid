@@ -1,4 +1,3 @@
-import {lookupArchive} from '@subsquid/archive-registry'
 import {
   type BlockHeader,
   type DataHandlerContext,
@@ -7,20 +6,15 @@ import {
   type Log as _Log,
   type Transaction as _Transaction,
 } from '@subsquid/evm-processor'
-import {Store} from '@subsquid/typeorm-store'
+import type {Store} from '@subsquid/typeorm-store'
 import {assertNotNull} from '@subsquid/util-internal'
-import * as erc20 from './abi/erc20'
 
 export const CONTRACT_ADDRESS = '0x6c5bA91642F10282b576d91922Ae6448C9d52f4E'
 export const CONTRACT_DEPLOYED_AT = 9975568
 
 export const processor = new EvmBatchProcessor()
   .includeAllBlocks()
-  .setGateway({
-    // Lookup archive by the network name in Subsquid registry
-    // See https://docs.subsquid.io/evm-indexing/supported-networks/
-    url: lookupArchive('eth-mainnet'),
-  })
+  .setGateway({url: 'https://v2.archive.subsquid.io/network/ethereum-mainnet'})
   .setRpcEndpoint({
     // Set the URL via .env for local runs or via secrets when deploying to Subsquid Cloud
     // https://docs.subsquid.io/deploy-squid/env-variables/
@@ -29,15 +23,6 @@ export const processor = new EvmBatchProcessor()
     rateLimit: 5,
   })
   .setFinalityConfirmation(75)
-  .setFields({
-    log: {topics: true, data: true},
-    transaction: {hash: true},
-  })
-  .addLog({
-    address: [CONTRACT_ADDRESS],
-    topic0: [erc20.events.Transfer.topic],
-    transaction: true,
-  })
   .setBlockRange({from: CONTRACT_DEPLOYED_AT})
 
 export type Fields = EvmBatchProcessorFields<typeof processor>

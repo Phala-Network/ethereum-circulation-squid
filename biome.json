@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": ["src/abi/*", "src/types/*"],
+    "ignore": ["src/abi/*", "src/model/*", "db/*"],
     "ignoreUnknown": true
   },
   "formatter": {
