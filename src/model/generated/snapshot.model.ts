@@ -22,6 +22,9 @@ export class Snapshot {
     reward!: BigDecimal
 
     @BigDecimalColumn_({nullable: false})
+    vaultReward!: BigDecimal
+
+    @BigDecimalColumn_({nullable: false})
     phalaChainBridge!: BigDecimal
 
     @BigDecimalColumn_({nullable: false})

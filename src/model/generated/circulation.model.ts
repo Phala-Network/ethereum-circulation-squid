@@ -20,6 +20,12 @@ export class Circulation {
     reward!: BigDecimal
 
     @BigDecimalColumn_({nullable: false})
+    vaultReward!: BigDecimal
+
+    @BigDecimalColumn_({nullable: false})
+    vaultUnstakeLocked!: BigDecimal
+
+    @BigDecimalColumn_({nullable: false})
     phalaChainBridge!: BigDecimal
 
     @BigDecimalColumn_({nullable: false})

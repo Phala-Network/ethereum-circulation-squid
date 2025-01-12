@@ -3,6 +3,8 @@ type Circulation @entity {
   blockHeight: Int!
   timestamp: DateTime!
   reward: BigDecimal!
+  vaultReward: BigDecimal!
+  vaultUnstakeLocked: BigDecimal!
   phalaChainBridge: BigDecimal!
   khalaChainBridge: BigDecimal!
   sygmaBridge: BigDecimal!
@@ -16,6 +18,7 @@ type Snapshot @entity {
   blockHeight: Int! @index
   timestamp: DateTime! @index @unique
   reward: BigDecimal!
+  vaultReward: BigDecimal!
   phalaChainBridge: BigDecimal!
   khalaChainBridge: BigDecimal!
   sygmaBridge: BigDecimal!
