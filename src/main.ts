@@ -2,6 +2,7 @@ import assert from 'node:assert'
 import {BigDecimal} from '@subsquid/big-decimal'
 import {TypeormDatabase} from '@subsquid/typeorm-store'
 import {addDays, isAfter, isBefore} from 'date-fns'
+import {ethers} from 'ethers'
 import * as erc20Abi from './abi/erc20'
 import * as vaultAbi from './abi/vault'
 import {Circulation, Snapshot} from './model'
@@ -29,8 +30,8 @@ const normalizeTimestamp = (timestamp?: number): Date => {
   return date
 }
 
-const toBalance = (x: bigint) => BigDecimal(x.toString()).div(1e18)
-const toBigInt = (x: BigDecimal) => BigInt(x.times(1e18).toString())
+const toBalance = (x: bigint) => BigDecimal(ethers.formatUnits(x))
+const toBigInt = (x: BigDecimal) => ethers.parseUnits(x.toString())
 
 const fetchCirculation = async (
   ctx: Context,
@@ -111,7 +112,7 @@ processor.run(new TypeormDatabase(), async (ctx) => {
     const timestamp = normalizeTimestamp(block.header.timestamp)
 
     for (const log of block.logs) {
-      if (log.address === VAULT_CONTRACT_ADDRESS) {
+      if (log.address.toLowerCase() === VAULT_CONTRACT_ADDRESS.toLowerCase()) {
         if (log.topics[0] === vaultAbi.events.Withdraw.topic) {
           const {assets} = vaultAbi.events.Withdraw.decode(log)
           vaultUnstakeLocked += assets

@@ -1,0 +1,14 @@
+diff --git a/bigdecimal.js b/bigdecimal.js
+index a9d388752a7159a49e0f8b952de97e03b3166abe..fe063f2749a75b53ce71ce643e86cb0f5ddb6504 100644
+--- a/bigdecimal.js
++++ b/bigdecimal.js
+@@ -8,7 +8,8 @@ const Base = Big()
+ 
+ // adjust settings
+ Base.DP = 80
+-Base.NE = -19
++Base.PE = 999
++Base.NE = -999
+ 
+ 
+ function BigDecimal(value, decimals) {

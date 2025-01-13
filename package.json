@@ -6,7 +6,7 @@
     "build": "rm -rf lib && tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "@subsquid/big-decimal": "^1.0.0",
+    "@subsquid/big-decimal": "1.0.0",
     "@subsquid/evm-processor": "^1.27.0",
     "@subsquid/evm-typegen": "^4.3.0",
     "@subsquid/graphql-server": "^4.9.0",
@@ -23,5 +23,8 @@
     "@subsquid/typeorm-codegen": "^2.0.2",
     "@types/node": "^22.10.5",
     "typescript": "^5.7.3"
+  },
+  "patchedDependencies": {
+    "@subsquid/big-decimal@1.0.0": "patches/@subsquid%2Fbig-decimal@1.0.0.patch"
   }
 }
