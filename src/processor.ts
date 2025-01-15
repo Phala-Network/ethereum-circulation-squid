@@ -16,6 +16,11 @@ export const VAULT_DEPLOYED_AT = 21596326
 export const PHA_CONTRACT_ADDRESS = '0x6c5bA91642F10282b576d91922Ae6448C9d52f4E'
 export const CONTRACT_DEPLOYED_AT = 9975568
 
+// https://docs.sqd.dev/sdk/reference/processors/evm-batch/logs/#add-log
+const addressToTopic = (address: string) => {
+  return `0x${address.replace('x', '0').padStart(64, '0').toLowerCase()}`
+}
+
 export const processor = new EvmBatchProcessor()
   .includeAllBlocks()
   .setGateway({url: 'https://v2.archive.subsquid.io/network/ethereum-mainnet'})
@@ -31,6 +36,12 @@ export const processor = new EvmBatchProcessor()
   .addLog({
     address: [VAULT_CONTRACT_ADDRESS],
     topic0: [vaultAbi.events.Withdraw.topic, vaultAbi.events.Claimed.topic],
+    range: {from: VAULT_DEPLOYED_AT},
+  })
+  .addLog({
+    address: [VAULT_CONTRACT_ADDRESS],
+    topic0: [vaultAbi.events.Deposit.topic],
+    topic1: [addressToTopic(VAULT_CONTRACT_ADDRESS)],
     range: {from: VAULT_DEPLOYED_AT},
   })
 

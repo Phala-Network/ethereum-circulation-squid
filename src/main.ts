@@ -113,6 +113,12 @@ processor.run(new TypeormDatabase(), async (ctx) => {
 
     for (const log of block.logs) {
       if (log.address.toLowerCase() === VAULT_CONTRACT_ADDRESS.toLowerCase()) {
+        if (log.topics[0] === vaultAbi.events.Deposit.topic) {
+          const {sender, assets} = vaultAbi.events.Deposit.decode(log)
+          if (sender.toLowerCase() === VAULT_CONTRACT_ADDRESS.toLowerCase()) {
+            vaultUnstakeLocked -= assets
+          }
+        }
         if (log.topics[0] === vaultAbi.events.Withdraw.topic) {
           const {assets} = vaultAbi.events.Withdraw.decode(log)
           vaultUnstakeLocked += assets
