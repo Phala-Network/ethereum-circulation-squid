@@ -23,6 +23,8 @@ const KHALA_CHAIN_BRIDGE_ADDRESS = '0xeec0fb4913119567cdfc0c5fc2bf8f9f9b226c2d'
 const SYGMA_BRIDGE_ADDRESS = '0xC832588193cd5ED2185daDA4A531e0B26eC5B830'
 const PORTAL_BRIDGE_ADDRESS = '0x3ee18B2214AFF97000D974cf647E7C347E8fa585'
 
+const SUNSET_REWARD_ADDRESS = '0x4A396b5C9a6fBc1Bc0525f24Ac0A246766F3EBEF'
+
 // Environment variable for latest data update interval
 const LATEST_DATA_UPDATE_INTERVAL = Number.parseInt(
   process.env.LATEST_DATA_UPDATE_INTERVAL || '300',
@@ -46,6 +48,7 @@ const fetchCirculation = async (
   const pha = new erc20Abi.Contract(ctx, block, PHA_CONTRACT_ADDRESS)
   const vault = new vaultAbi.Contract(ctx, block, VAULT_CONTRACT_ADDRESS)
   const reward = await pha.balanceOf(REWARD_ADDRESS)
+  const sunsetReward = await pha.balanceOf(SUNSET_REWARD_ADDRESS)
   const phalaChainBridge = await pha.balanceOf(PHALA_CHAIN_BRIDGE_ADDRESS)
   const khalaChainBridge =
     (await pha.balanceOf(KHALA_CHAIN_BRIDGE_ADDRESS)) +
@@ -72,6 +75,7 @@ const fetchCirculation = async (
     sygmaBridge,
     portalBridge,
     vaultReward,
+    sunsetReward,
   ].reduce((acc, cur) => acc - cur, totalSupply)
 
   return {
